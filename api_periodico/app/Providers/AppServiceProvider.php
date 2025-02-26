@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Core\Repositories\UserRepository;
+use App\Core\Users\UseCases\RegisterUser;
+use App\Core\Users\UseCases\LoginUser;
+use App\Core\Users\Repositories\UserRepository;
 use App\Infrastructure\Persistence\EloquentUserRepository;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +16,12 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(UserRepository::class, EloquentUserRepository::class);
+        $this->app->bind(RegisterUser::class, function ($app) {
+            return new RegisterUser($app->make(UserRepository::class));
+        });
+        $this->app->bind(LoginUser::class, function ($app) {
+            return new LoginUser($app->make(UserRepository::class));
+        });
     }
 
     /**

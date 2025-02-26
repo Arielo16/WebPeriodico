@@ -2,68 +2,63 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\Core\UseCases\CreateUserUseCase;
-use App\Core\UseCases\DeleteUserUseCase;
-use App\Core\UseCases\GetAllUsersUseCase;
-use App\Core\UseCases\GetUserUseCase;
-use App\Core\UseCases\UpdateUserUseCase;
-use App\Core\UseCases\LoginUserUseCase;
 use Illuminate\Http\Request;
+use App\Core\Users\UseCases\RegisterUser;
+use App\Core\Users\UseCases\LoginUser;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    private $createUserUseCase;
-    private $deleteUserUseCase;
-    private $getAllUsersUseCase;
-    private $getUserUseCase;
-    private $updateUserUseCase;
-    private $loginUserUseCase;
+    protected $registerUser;
+    protected $loginUser;
 
-    public function __construct(
-        CreateUserUseCase $createUserUseCase,
-        DeleteUserUseCase $deleteUserUseCase,
-        GetAllUsersUseCase $getAllUsersUseCase,
-        GetUserUseCase $getUserUseCase,
-        UpdateUserUseCase $updateUserUseCase,
-        LoginUserUseCase $loginUserUseCase
-    ) {
-        $this->createUserUseCase = $createUserUseCase;
-        $this->deleteUserUseCase = $deleteUserUseCase;
-        $this->getAllUsersUseCase = $getAllUsersUseCase;
-        $this->getUserUseCase = $getUserUseCase;
-        $this->updateUserUseCase = $updateUserUseCase;
-        $this->loginUserUseCase = $loginUserUseCase;
+    public function __construct(RegisterUser $registerUser, LoginUser $loginUser)
+    {
+        $this->registerUser = $registerUser;
+        $this->loginUser = $loginUser;
     }
 
-    public function index()
+    public function register(Request $request)
     {
-        return response()->json($this->getAllUsersUseCase->execute());
-    }
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+        ]);
 
-    public function store(UserRequest $request)
-    {
-        return response()->json($this->createUserUseCase->execute($request->validated()), 201);
-    }
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
 
-    public function show($id)
-    {
-        return response()->json($this->getUserUseCase->execute($id));
-    }
+        $user = $this->registerUser->execute(
+            $request->name,
+            $request->email,
+            $request->password
+        );
 
-    public function update(UserRequest $request, $id)
-    {
-        return response()->json($this->updateUserUseCase->execute($id, $request->validated()));
-    }
-
-    public function destroy($id)
-    {
-        return response()->json($this->deleteUserUseCase->execute($id));
+        return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
     }
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-        return response()->json($this->loginUserUseCase->execute($credentials));
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $token = $this->loginUser->execute(
+            $request->email,
+            $request->password
+        );
+
+        if ($token) {
+            return response()->json(['token' => $token], 200);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
     }
 }

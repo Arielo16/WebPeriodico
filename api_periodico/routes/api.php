@@ -14,15 +14,6 @@ Route::get('get/writers/{id}', [WriterController::class, 'show']);
 Route::put('put/writers/{id}', [WriterController::class, 'update']);
 Route::delete('delete/writers/{id}', [WriterController::class, 'destroy']);
 
-Route::prefix('users')->group(function () {
-    Route::get('/', [UserController::class, 'index']);
-    Route::post('/', [UserController::class, 'store']);
-    Route::get('/{id}', [UserController::class, 'show']);
-    Route::put('/{id}', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'destroy']);
-    Route::post('/login', [UserController::class, 'login']);
-});
-
 Route::get('get/news-labels', [NewsLabelController::class, 'index']);
 Route::post('post/news-labels', [NewsLabelController::class, 'store']);
 Route::get('get/news-labels/{id}', [NewsLabelController::class, 'show']);
@@ -52,3 +43,8 @@ Route::post('post/categories', [CategoryController::class, 'store']);
 Route::get('get/categories/{id}', [CategoryController::class, 'show']);
 Route::put('put/categories/{id}', [CategoryController::class, 'update']);
 Route::delete('delete/categories/{id}', [CategoryController::class, 'destroy']);
+
+Route::prefix('users')->group(function () {
+    Route::post('/register', [UserController::class, 'register']);
+    Route::post('/login', [UserController::class, 'login']);
+});

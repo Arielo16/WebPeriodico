@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Auth\Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 
 class User extends Model implements AuthenticatableContract
 {
-    use HasFactory, Authenticatable;
+    use HasFactory, Authenticatable, HasApiTokens;
 
     protected $fillable = [
         'name',
