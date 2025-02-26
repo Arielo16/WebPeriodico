@@ -1,0 +1,9 @@
+@import './base/_variables.scss';
+
+// Estilos globales
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+// Puedes agregar más estilos globales aquí 
