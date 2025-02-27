@@ -9,11 +9,7 @@ use App\Http\Controllers\LabelController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\CategoryController;
 
-Route::get('get/writers', [WriterController::class, 'index']);
-Route::post('post/writers', [WriterController::class, 'store']);
-Route::get('get/writers/{id}', [WriterController::class, 'show']);
-Route::put('put/writers/{id}', [WriterController::class, 'update']);
-Route::delete('delete/writers/{id}', [WriterController::class, 'destroy']);
+
 
 Route::get('get/news-labels', [NewsLabelController::class, 'index']);
 Route::post('post/news-labels', [NewsLabelController::class, 'store']);
@@ -48,4 +44,11 @@ Route::delete('delete/categories/{id}', [CategoryController::class, 'destroy']);
 Route::prefix('users')->group(function () {
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
+});
+
+Route::prefix('writers')->group(function () {
+    Route::post('/register', [WriterController::class, 'register']);
+});
+Route::prefix('news')->group(function () {
+    Route::post('/register', [NewsController::class, 'register']);
 });

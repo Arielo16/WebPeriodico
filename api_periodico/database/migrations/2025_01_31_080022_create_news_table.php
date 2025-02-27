@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreign('categoryID')->references('categoryID')->on('categories')->onDelete('set null');
             $table->foreign('matricula')->references('matricula')->on('writers')->onDelete('set null');
         });
-        
+
     }
 
     /**

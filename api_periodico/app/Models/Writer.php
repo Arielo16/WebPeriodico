@@ -11,7 +11,7 @@ class Writer extends Model
 
     protected $table = 'writers';
     protected $primaryKey = 'matricula';
-    protected $fillable = ['name', 'last_name', 'secund_last_name'];
+    protected $fillable = ['matricula', 'name', 'last_name', 'secund_last_name'];
     public $incrementing = false;
     protected $keyType = 'string';
 
@@ -20,3 +20,4 @@ class Writer extends Model
         return $this->hasMany(News::class, 'matricula');
     }
 }
+
