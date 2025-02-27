@@ -8,7 +8,7 @@ export const authService = {
       remember: credentials.remember || false
     };
 
-    const response = await api.post('/post/users/login', loginData);
+    const response = await api.post('/users/login', loginData);
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
       if (response.data.user) {
@@ -24,7 +24,7 @@ export const authService = {
   },
 
   async register(userData) {
-    const response = await api.post('/auth/register', userData);
+    const response = await api.post('/users/register', userData);
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
     }
@@ -38,4 +38,4 @@ export const authService = {
   isAuthenticated() {
     return !!this.getToken();
   }
-}; 
+};
