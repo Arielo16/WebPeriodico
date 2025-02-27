@@ -20,7 +20,7 @@ class LoginUser
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            return $user->createToken('authToken')->accessToken;
+            return $user; // Eliminar createToken y devolver el usuario directamente
         }
 
         return null;

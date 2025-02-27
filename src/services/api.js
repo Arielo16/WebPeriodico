@@ -6,18 +6,7 @@ const api = axios.create({
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
-  withCredentials: true
-});
-
-// Interceptor para agregar el token a las peticiones
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-}, (error) => {
-  return Promise.reject(error);
+  withCredentials: false
 });
 
 // Interceptor para manejar errores
@@ -26,11 +15,11 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       // Manejar error de autenticación
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      localStorage.removeItem('user');
+      window.location.href = '/login';      
     }
     return Promise.reject(error);
   }
 );
 
-export default api; 
+export default api;
