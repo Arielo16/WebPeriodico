@@ -14,18 +14,18 @@ class CreateNews
         $this->newsRepository = $newsRepository;
     }
 
-    public function execute($notciaID, $title, $description, $views, $categoryID, $matricula)
+    public function execute($noticiaID, $title, $description, $views, $categoryID, $matricula)
     {
-        $newsEntity = new NewsEntity($notciaID, $title, $description, $views, $categoryID, $matricula);
+        $newsEntity = new NewsEntity($noticiaID, $title, $description, $views, $categoryID, $matricula);
         $newsData = [
-            'notciaID' => $newsEntity->notciaID,
+            'notciaID' => $newsEntity->noticiaID,
             'title' => $newsEntity->title,
             'description' => $newsEntity->description,
             'views' => $newsEntity->views,
             'categoryID' => $newsEntity->categoryID,
             'matricula' => $newsEntity->matricula,
         ];
-        
+
         return $this->newsRepository->create($newsData);
     }
 }
