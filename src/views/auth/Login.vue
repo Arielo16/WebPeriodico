@@ -125,8 +125,8 @@ export default {
 
         await authService.login(credentials);
         
-        // Si el login es exitoso, redirigimos
-        this.$router.push('/dashboard');
+        // Si el login es exitoso, redirigimos a la página principal
+        this.$router.push('/home');
       } catch (error) {
         console.error('Error de login:', error);
         this.error = error.response?.data?.message || 
