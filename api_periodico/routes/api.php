@@ -41,6 +41,8 @@ Route::get('get/categories/{id}', [CategoryController::class, 'show']);
 Route::put('put/categories/{id}', [CategoryController::class, 'update']);
 Route::delete('delete/categories/{id}', [CategoryController::class, 'destroy']);
 
+
+
 Route::prefix('users')->group(function () {
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
@@ -49,6 +51,10 @@ Route::prefix('users')->group(function () {
 Route::prefix('writers')->group(function () {
     Route::post('/register', [WriterController::class, 'register']);
 });
+
 Route::prefix('news')->group(function () {
     Route::post('/register', [NewsController::class, 'register']);
+    Route::get('/register', [NewsController::class, 'testRegister']);
 });
+
+

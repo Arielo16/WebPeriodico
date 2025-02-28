@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Core\News\UseCases\CreateNews;
 use Illuminate\Support\Facades\Validator;
+use App\Models\News; // Asegúrate de tener el modelo News
 
 class NewsController extends Controller
 {
@@ -40,5 +41,23 @@ class NewsController extends Controller
         );
 
         return response()->json($newsData, 201);
+    }
+
+    public function testRegister()
+    {
+        return response()->json([
+            'notciaID' => 'testID',
+            'title' => 'Test Title',
+            'description' => 'Test Description',
+            'views' => '0',
+            'categoryID' => 'testCategoryID',
+            'matricula' => 'testMatricula'
+        ], 200);
+    }
+
+    public function index()
+    {
+        $news = News::all();
+        return response()->json($news, 200);
     }
 }
