@@ -31,7 +31,7 @@ export default {
   async created() {
     this.loading = true;
     try {
-      const response = await api.get('/news');
+      const response = await api.get('/get/news'); // Updated route
       this.newsList = response.data;
     } catch (error) {
       this.error = 'Error al cargar las noticias.';
