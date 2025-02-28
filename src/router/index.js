@@ -1,38 +1,36 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Login from '@/views/auth/Login.vue'
-import HomePage from '@/views/HomePage.vue'
-import Register from '@/views/auth/Register.vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
-Vue.use(Router)
+const routes = [
+  {
+    path: '/',
+    name: 'Landing',
+    component: () => import('@/views/Landing.vue')
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: () => import('@/views/Home.vue')
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import('@/views/About.vue')
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/auth/Login.vue')
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/views/auth/Register.vue')
+  }
+]
 
-export default new Router({
-  mode: 'history',
-  routes: [
-    {
-      path: '/',
-      name: 'Landing',
-      component: () => import('@/views/Landing.vue')
-    },
-    {
-      path: '/home',
-      name: 'Home',
-      component: HomePage
-    },
-    {
-      path: '/about',
-      name: 'About',
-      component: () => import('@/views/About.vue')
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/register',
-      name: 'Register',
-      component: Register
-    }
-  ]
+const router = createRouter({
+  history: createWebHistory(),
+  routes
 })
+
+export default router
