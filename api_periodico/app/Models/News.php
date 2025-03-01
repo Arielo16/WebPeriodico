@@ -20,7 +20,7 @@ class News extends Model
 
     public function writer()
     {
-        return $this->belongsTo(Writer::class, 'matricula');
+        return $this->belongsTo(Writer::class, 'matricula', 'matricula');
     }
 
     public function images()

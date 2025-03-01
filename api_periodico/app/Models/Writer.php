@@ -9,15 +9,8 @@ class Writer extends Model
 {
     use HasFactory;
 
-    protected $table = 'writers';
     protected $primaryKey = 'matricula';
-    protected $fillable = ['matricula', 'name', 'last_name', 'secund_last_name'];
     public $incrementing = false;
     protected $keyType = 'string';
-
-    public function news()
-    {
-        return $this->hasMany(News::class, 'matricula');
-    }
 }
 

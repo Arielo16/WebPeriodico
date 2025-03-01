@@ -57,7 +57,19 @@ class NewsController extends Controller
 
     public function index()
     {
-        $news = News::all();
+        $news = News::with('writer:name,matricula')->get()->map(function ($item) {
+            return [
+                'noticiaID' => $item->noticiaID,
+                'title' => $item->title,
+                'description' => $item->description,
+                'views' => $item->views,
+                'categoryID' => $item->categoryID,
+                'writer_name' => $item->writer->name,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+            ];
+        });
+
         return response()->json($news, 200);
     }
 }
