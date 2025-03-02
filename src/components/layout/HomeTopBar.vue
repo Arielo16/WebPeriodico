@@ -39,7 +39,7 @@ export default {
   padding: 1rem 2rem;
   background-color: #333;
   color: #fff;
-  z-index: 10; /* Asegurar que el top bar esté encima */
+  z-index: 1000; /* Asegura que la barra superior esté siempre al frente */
 
   .menu, .user-profile {
     display: flex;
@@ -62,5 +62,12 @@ export default {
       text-decoration: underline;
     }
   }
+}
+
+/* Asegura que solo haya tres columnas por fila */
+.news-card-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
 }
 </style>
