@@ -1,6 +1,7 @@
 <template>
   <div class="news-card">
     <h2>{{ news.title }}</h2>
+    <p class="news-category"><strong>Category:</strong> {{ news.categoryID }}</p> <!-- Agrega el campo Category -->
     <p>{{ news.description }}</p>
     <div class="news-card-footer">
       <p class="news-card-name"><strong>Name:</strong> {{ news.writer_name }}</p>
@@ -38,14 +39,19 @@ export default {
 }
 
 .news-card:hover {
-  transform: translateY(-10px); /* Eleva el cuadro */
+  transform: translateY(-35px); /* Eleva el cuadro */
   box-shadow: 0px 0px 30px 1px rgba(0, 0, 0, 0.916); /* Sombra más oscura */
   z-index: 10; /* Trae la tarjeta al frente al pasar el ratón */
 }
 
 .news-card h2 {
   font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.1rem; /* Reduce el margen inferior */
+  color: #000; /* Color de texto negro */
+}
+
+.news-category {
+  margin-bottom: 0 rem; /* Reduce el margen inferior */
   color: #000; /* Color de texto negro */
 }
 
