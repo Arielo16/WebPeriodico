@@ -9,16 +9,16 @@ class NewsEntity
     public $description;
     public $views;
     public $categoryID;
-    public $matricula;
+    public $writer_name;
 
-    public function __construct($noticiaID, $title, $description, $views, $categoryID, $matricula)
+    public function __construct($noticiaID, $title, $description, $views, $categoryID, $writer_name)
     {
         $this->noticiaID = $noticiaID;
         $this->title = $title;
         $this->description = $description;
         $this->views = $views;
         $this->categoryID = $categoryID;
-        $this->matricula = $matricula;
+        $this->writer_name = $writer_name;
     }
 
 }

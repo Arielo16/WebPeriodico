@@ -4,7 +4,7 @@
     <p>{{ news.description }}</p>
     <p><strong>Views:</strong> {{ news.views }}</p>
     <p><strong>Category:</strong> {{ news.categoryName }}</p>
-    <p><strong>Matricula:</strong> {{ news.matricula }}</p>
+    <p><strong>Name:</strong> {{ news.writer_name }}</p>
   </div>
 </template>
 
@@ -27,7 +27,15 @@ export default {
   margin: 1rem 0;
   border-radius: 8px;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  max-width: 400px; /* Specific width */
+  font-family: inherit; /* Maintain font type */
+}
+
+.news-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .news-card h2 {

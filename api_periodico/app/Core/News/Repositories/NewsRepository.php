@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Core\News\Repositories;
 
 use App\Models\News;
@@ -11,13 +10,13 @@ class NewsRepository
     public function getAll(): array
     {
         return News::all()->map(function ($news) {
-            return new NewsEntity($news->noticiaID, $news->title, $news->description, $news->views, $news->categoryID, $news->matricula);
+            return new NewsEntity($news->noticiaID, $news->title, $news->description, $news->views, $news->categoryID, $news->writer_name);
         })->toArray();
     }
 
     public function create(array $data): NewsEntity
     {
         $news = News::create($data);
-        return new NewsEntity($news->noticiaID, $news->title, $news->description, $news->views, $news->categoryID, $news->matricula);
+        return new NewsEntity($news->noticiaID, $news->title, $news->description, $news->views, $news->categoryID, $news->writer_name);
     }
 }

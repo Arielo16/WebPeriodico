@@ -39,6 +39,7 @@ export default {
   padding: 1rem 2rem;
   background-color: #333;
   color: #fff;
+  z-index: 10; /* Asegurar que el top bar esté encima */
 
   .menu, .user-profile {
     display: flex;
