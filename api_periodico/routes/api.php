@@ -55,6 +55,7 @@ Route::prefix('writers')->group(function () {
 Route::prefix('news')->group(function () {
     Route::post('/register', [NewsController::class, 'register']);
     Route::get('/register', [NewsController::class, 'testRegister']);
+    Route::get('/{id}', [NewsController::class, 'show']); // Ruta para GetNewsById
 });
 
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="news-card">
+  <div class="news-card" @click="goToDetails">
     <div class="news-image-container">
       <img v-if="news.images.length" :src="news.images[0]" alt="News Image" class="news-image" />
     </div>
@@ -22,6 +22,12 @@ export default {
     news: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    goToDetails() {
+      // Redirige a la vista de detalles de la noticia
+      this.$router.push({ name: 'NewsDetails', params: { id: this.news.noticiaID } });
     }
   }
 }

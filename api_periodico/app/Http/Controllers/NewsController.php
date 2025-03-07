@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Core\News\UseCases\CreateNews;
+use App\Core\News\UseCases\GetNewsById;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\News;
@@ -14,10 +15,12 @@ use Cloudinary\Api\Upload\UploadApi;
 class NewsController extends Controller
 {
     protected $createNews;
+    protected $getNewsById;
 
-    public function __construct(CreateNews $createNews)
+    public function __construct(CreateNews $createNews, GetNewsById $getNewsById)
     {
         $this->createNews = $createNews;
+        $this->getNewsById = $getNewsById;
         Configuration::instance(getenv('CLOUDINARY_URL'));
     }
 
@@ -110,5 +113,14 @@ class NewsController extends Controller
         });
 
         return response()->json($news, 200);
+    }
+
+    public function show($id)
+    {
+        $news = $this->getNewsById->execute($id);
+        if ($news) {
+            return response()->json($news->toArray(), 200);
+        }
+        return response()->json(['error' => 'News not found'], 404);
     }
 }

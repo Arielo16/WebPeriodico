@@ -32,6 +32,7 @@ export default {
 </script>
 
 <style scoped>
+
 .home-topbar {
   display: flex;
   align-items: center;

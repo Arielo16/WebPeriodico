@@ -10,8 +10,9 @@ class NewsEntity
     public $views;
     public $categoryID;
     public $writer_name;
+    public $images;
 
-    public function __construct($noticiaID, $title, $description, $views, $categoryID, $writer_name)
+    public function __construct($noticiaID, $title, $description, $views, $categoryID, $writer_name, $images = [])
     {
         $this->noticiaID = $noticiaID;
         $this->title = $title;
@@ -19,6 +20,7 @@ class NewsEntity
         $this->views = $views;
         $this->categoryID = $categoryID;
         $this->writer_name = $writer_name;
+        $this->images = $images;
     }
 
     public function toArray()
@@ -29,7 +31,8 @@ class NewsEntity
             'description' => $this->description,
             'views' => $this->views,
             'categoryID' => $this->categoryID,
-            'matricula' => $this->writer_name,
+            'writer_name' => $this->writer_name,
+            'images' => $this->images,
         ];
     }
 }
