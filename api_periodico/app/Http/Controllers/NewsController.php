@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Core\News\UseCases\CreateNews;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\News;
 use App\Models\Image;
@@ -37,38 +38,47 @@ class NewsController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $newsData = $this->createNews->execute(
-            $request->notciaID,
-            $request->title,
-            $request->description,
-            $request->views,
-            $request->categoryID,
-            $request->matricula
-        );
+        DB::beginTransaction();
 
-        // Convert NewsEntity to array
-        $newsArray = $newsData->toArray();
+        try {
+            $newsData = $this->createNews->execute(
+                $request->notciaID,
+                $request->title,
+                $request->description,
+                $request->views,
+                $request->categoryID,
+                $request->matricula
+            );
 
-        $news = News::create($newsArray);
+            // Convert NewsEntity to array
+            $newsArray = $newsData->toArray();
 
-        if ($request->has('images')) {
-            $imageUrls = [];
-            foreach ($request->file('images') as $imageFile) {
-                $uploadedFile = (new UploadApi())->upload($imageFile->getRealPath());
-                $imageUrls[] = $uploadedFile['secure_url'];
+            $news = News::create($newsArray);
+
+            if ($request->has('images')) {
+                $imageUrls = [];
+                foreach ($request->file('images') as $imageFile) {
+                    $uploadedFile = (new UploadApi())->upload($imageFile->getRealPath());
+                    $imageUrls[] = $uploadedFile['secure_url'];
+                }
+
+                foreach ($imageUrls as $url) {
+                    $image = Image::create([
+                        'name' => basename($url),
+                        'url_imagen' => $url,
+                        'noticiaID' => $news->noticiaID,
+                    ]);
+                    $news->images()->attach($image->imagenID);
+                }
             }
 
-            foreach ($imageUrls as $url) {
-                $image = Image::create([
-                    'name' => basename($url),
-                    'url_imagen' => $url,
-                    'noticiaID' => $news->noticiaID,
-                ]);
-                $news->images()->attach($image->imagenID);
-            }
+            DB::commit();
+
+            return response()->json($news, 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Failed to create news', 'message' => $e->getMessage()], 500);
         }
-
-        return response()->json($news, 201);
     }
 
     public function testRegister()
@@ -85,7 +95,7 @@ class NewsController extends Controller
 
     public function index()
     {
-        $news = News::with('writer:name,matricula')->get()->map(function ($item) {
+        $news = News::with(['writer:name,matricula', 'images:url_imagen'])->get()->map(function ($item) {
             return [
                 'noticiaID' => $item->noticiaID,
                 'title' => $item->title,
@@ -93,6 +103,7 @@ class NewsController extends Controller
                 'views' => $item->views,
                 'categoryID' => $item->categoryID,
                 'writer_name' => $item->writer->name,
+                'images' => $item->images->pluck('url_imagen'), // Include image URLs
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
             ];
