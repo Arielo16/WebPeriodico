@@ -18,12 +18,12 @@ class CreateNews
     {
         $newsEntity = new NewsEntity($noticiaID, $title, $description, $views, $categoryID, $writer_name);
         $newsData = [
-            'notciaID' => $newsEntity->noticiaID,
+            'noticiaID' => $newsEntity->noticiaID,
             'title' => $newsEntity->title,
             'description' => $newsEntity->description,
             'views' => $newsEntity->views,
             'categoryID' => $newsEntity->categoryID,
-            'writer_name' => $newsEntity->writer_name,
+            'matricula' => $newsEntity->writer_name,
         ];
 
         return $this->newsRepository->create($newsData);

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Core\News\UseCases\CreateNews;
 use Illuminate\Support\Facades\Validator;
-use App\Models\News; // Asegúrate de tener el modelo News
+use App\Models\News;
+use App\Models\Image;
+use Cloudinary\Configuration\Configuration;
+use Cloudinary\Api\Upload\UploadApi;
 
 class NewsController extends Controller
 {
@@ -14,6 +17,7 @@ class NewsController extends Controller
     public function __construct(CreateNews $createNews)
     {
         $this->createNews = $createNews;
+        Configuration::instance(getenv('CLOUDINARY_URL'));
     }
 
     public function register(Request $request)
@@ -25,6 +29,8 @@ class NewsController extends Controller
             'views' => 'required|string',
             'categoryID' => 'required|string',
             'matricula' => 'required|string',
+            'images' => 'array', // Add validation for images
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Ensure each file is an image
         ]);
 
         if ($validator->fails()) {
@@ -40,7 +46,29 @@ class NewsController extends Controller
             $request->matricula
         );
 
-        return response()->json($newsData, 201);
+        // Convert NewsEntity to array
+        $newsArray = $newsData->toArray();
+
+        $news = News::create($newsArray);
+
+        if ($request->has('images')) {
+            $imageUrls = [];
+            foreach ($request->file('images') as $imageFile) {
+                $uploadedFile = (new UploadApi())->upload($imageFile->getRealPath());
+                $imageUrls[] = $uploadedFile['secure_url'];
+            }
+
+            foreach ($imageUrls as $url) {
+                $image = Image::create([
+                    'name' => basename($url),
+                    'url_imagen' => $url,
+                    'noticiaID' => $news->noticiaID,
+                ]);
+                $news->images()->attach($image->imagenID);
+            }
+        }
+
+        return response()->json($news, 201);
     }
 
     public function testRegister()

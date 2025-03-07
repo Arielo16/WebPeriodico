@@ -10,11 +10,11 @@ class Image extends Model
     use HasFactory;
 
     protected $table = 'images';
-    protected $primaryKey = 'imagenID';
+    protected $primaryKey = 'imagenID'; // Ensure this is correct
     protected $fillable = ['name', 'url_imagen', 'noticiaID'];
 
     public function news()
     {
-        return $this->belongsTo(News::class, 'noticiaID');
+        return $this->belongsToMany(News::class, 'image_news', 'image_id', 'news_id');
     }
 }

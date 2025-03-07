@@ -10,7 +10,7 @@ class News extends Model
     use HasFactory;
 
     protected $table = 'news';
-    protected $primaryKey = 'noticiaID';
+    protected $primaryKey = 'noticiaID'; // Ensure this is correct
     protected $fillable = ['title', 'description', 'views', 'categoryID', 'matricula'];
 
     public function category()
@@ -25,7 +25,7 @@ class News extends Model
 
     public function images()
     {
-        return $this->hasMany(Image::class, 'noticiaID');
+        return $this->belongsToMany(Image::class, 'image_news', 'news_id', 'image_id');
     }
 
     public function labels()

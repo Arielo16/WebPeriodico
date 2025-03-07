@@ -20,6 +20,8 @@ class ImageController extends Controller
             'name' => 'required|string|max:255',
             'url_imagen' => 'required|string|max:255',
             'noticiaID' => 'required|integer',
+            'news' => 'array', // Add validation for news
+            'news.*' => 'integer|exists:news,id', // Ensure each news ID exists
         ]);
 
         if ($validator->fails()) {
@@ -27,6 +29,11 @@ class ImageController extends Controller
         }
 
         $image = Image::create($request->all());
+
+        if ($request->has('news')) {
+            $image->news()->sync($request->news);
+        }
+
         return response()->json(['success' => 'Image created successfully', 'image' => $image], 201);
     }
 

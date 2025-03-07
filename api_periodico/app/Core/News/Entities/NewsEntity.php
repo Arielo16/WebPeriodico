@@ -21,4 +21,15 @@ class NewsEntity
         $this->writer_name = $writer_name;
     }
 
+    public function toArray()
+    {
+        return [
+            'noticiaID' => $this->noticiaID,
+            'title' => $this->title,
+            'description' => $this->description,
+            'views' => $this->views,
+            'categoryID' => $this->categoryID,
+            'matricula' => $this->writer_name,
+        ];
+    }
 }
