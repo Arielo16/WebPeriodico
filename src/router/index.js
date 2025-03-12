@@ -3,6 +3,7 @@ import Login from '@/views/auth/Login.vue'
 import HomePage from '@/views/HomePage.vue'
 import Register from '@/views/auth/Register.vue'
 import NewsDetails from '@/views/NewsDetails.vue'
+import UserProfile from '@/views/UserProfile.vue'
 
 const routes = [
   {
@@ -34,6 +35,11 @@ const routes = [
     path: '/news/:id',
     name: 'NewsDetails',
     component: NewsDetails
+  },
+  {
+    path: '/UserProfile',
+    name: 'UserProfile',
+    component: UserProfile
   }
 ]
 

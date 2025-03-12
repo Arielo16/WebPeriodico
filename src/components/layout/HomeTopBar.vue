@@ -11,7 +11,7 @@
     </div>
     
     <div class="user-profile">
-      <router-link to="/profile" class="nav-link">Perfil</router-link>
+      <router-link to="/UserProfile" class="nav-link">Perfil</router-link>
       <button @click="logout" class="nav-link">Cerrar Sesión</button>
     </div>
   </div>
