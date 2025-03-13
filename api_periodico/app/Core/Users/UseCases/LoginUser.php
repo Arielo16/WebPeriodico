@@ -19,8 +19,7 @@ class LoginUser
         $credentials = ['email' => $email, 'password' => $password];
 
         if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            return $user; // Eliminar createToken y devolver el usuario directamente
+            return Auth::user(); // Devuelve el usuario autenticado
         }
 
         return null;

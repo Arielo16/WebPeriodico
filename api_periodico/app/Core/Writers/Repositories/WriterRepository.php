@@ -5,7 +5,7 @@ namespace App\Core\Writers\Repositories;
 use App\Models\Writer;
 use App\Core\Writers\Entities\WriterEntity;
 
-class WriterRepository 
+class WriterRepository
 {
     public function getAll(): array
     {
@@ -17,6 +17,15 @@ class WriterRepository
     public function create(array $data): WriterEntity
     {
         $writer = Writer::create($data);
+        return new WriterEntity($writer->matricula, $writer->name, $writer->last_name, $writer->secund_last_name);
+    }
+
+    public function getByUserName($userName): ?WriterEntity
+    {
+        $writer = Writer::where('name', $userName)->first();
+        if (!$writer) {
+            return null;
+        }
         return new WriterEntity($writer->matricula, $writer->name, $writer->last_name, $writer->secund_last_name);
     }
 }

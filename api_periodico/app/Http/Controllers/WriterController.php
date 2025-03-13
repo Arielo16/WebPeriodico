@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Core\Writers\UseCases\CreateWriter;
+use App\Core\Writers\Repositories\WriterRepository;
 use Illuminate\Support\Facades\Validator;
 
 class WriterController extends Controller
 {
     protected $createWriter;
+    protected $writerRepository;
 
-    public function __construct(CreateWriter $createWriter)
+    public function __construct(CreateWriter $createWriter, WriterRepository $writerRepository)
     {
         $this->createWriter = $createWriter;
+        $this->writerRepository = $writerRepository;
     }
 
     public function register(Request $request)
@@ -36,6 +39,12 @@ class WriterController extends Controller
         );
 
         return response()->json($writerData, 201);
+    }
+
+    public function index()
+    {
+        $writers = $this->writerRepository->getAll();
+        return response()->json($writers);
     }
 }
 

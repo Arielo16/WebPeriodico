@@ -43,13 +43,18 @@ Route::delete('delete/categories/{id}', [CategoryController::class, 'destroy']);
 
 
 
+Route::middleware('auth:api')->get('/user/name', [UserController::class, 'getLoggedInUserName']);
+Route::middleware('auth:api')->get('/user/profile', [UserController::class, 'getLoggedInUserProfile']);
+
 Route::prefix('users')->group(function () {
     Route::post('/register', [UserController::class, 'register']);
-    Route::post('/login', [UserController::class, 'login']);
+    Route::post('/login', [UserController::class, 'login']); // Asegúrate de que esta línea exista
+    Route::get('/profile', [UserController::class, 'showProfile']);
 });
 
 Route::prefix('writers')->group(function () {
     Route::post('/register', [WriterController::class, 'register']);
+    Route::get('/show', [WriterController::class, 'index']); // Add this line
 });
 
 Route::prefix('news')->group(function () {
